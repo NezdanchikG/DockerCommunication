@@ -1,0 +1,18 @@
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:11-jdk-slim
+
+# Install Maven
+RUN apt-get update && apt-get install -y maven
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the pom.xml and source code
+COPY pom.xml .
+COPY src /app/src
+
+# Build the sender project
+RUN mvn clean package
+
+# Run the sender
+CMD ["java", "-cp", "target/docker-communication-1.0-SNAPSHOT-jar-with-dependencies.jar", "com.Nezdanchik.Sender"]

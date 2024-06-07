@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  sender_1:
+    build:
+      context: .
+      dockerfile: Dockerfile.sender
+    command: ["java", "-cp", "target/docker-communication-1.0-SNAPSHOT-jar-with-dependencies.jar", "com.Nezdanchik.Sender", "topic1", "Hello from Sender 1"]
+
+  sender_2:
+    build:
+      context: .
+      dockerfile: Dockerfile.sender
+    command: ["java", "-cp", "target/docker-communication-1.0-SNAPSHOT-jar-with-dependencies.jar", "com.Nezdanchik.Sender", "topic2", "Hello from Sender 2"]
+
+  sender_3:
+    build:
+      context: .
+      dockerfile: Dockerfile.sender
+    command: ["java", "-cp", "target/docker-communication-1.0-SNAPSHOT-jar-with-dependencies.jar", "com.Nezdanchik.Sender", "topic3", "Hello from Sender 3"]
+
+  receiver_1:
+    build:
+      context: .
+      dockerfile: Dockerfile.receiver
+    command: ["java", "-cp", "target/docker-communication-1.0-SNAPSHOT-jar-with-dependencies.jar", "com.Nezdanchik.Receiver", "topic1"]
+
+  receiver_2:
+    build:
+      context: .
+      dockerfile: Dockerfile.receiver
+    command: ["java", "-cp", "target/docker-communication-1.0-SNAPSHOT-jar-with-dependencies.jar", "com.Nezdanchik.Receiver", "topic2"]
+
+  receiver_3:
+    build:
+      context: .
+      dockerfile: Dockerfile.receiver
+    command: ["java", "-cp", "target/docker-communication-1.0-SNAPSHOT-jar-with-dependencies.jar", "com.Nezdanchik.Receiver", "topic3"]
